@@ -1,0 +1,48 @@
+php-parse:
+- recognizer tests for all parsers
+  - keyword as variable name
+- write a readme
+- get rid of char count in loc
+- do we need separate types for all the symbols and keywords?
+
+
+- Get the property tests to pass
+  - Fix lexing for heredocs & nowdocs
+  - Fix shrinking
+- Fix the grammar conflicts
+- Complete the recognizer test suite
+
+
+- structural analysis
+- automated refactoring
+- pattern detection
+- formatting
+- context aware search
+- usage analysis
+- cyclomatic complexity measurement
+
+- dead code detection
+- type inference
+- coverage statistics
+- obfustaction
+- call graph
+
+- code generation
+
+
+
+
+NOTES ON USING QUICKCHECK
+-------------------------
+QC is great for finding bugs. I like to tweak the settings to run as many test cases, that are as complicated as possible, while still running in a reasonable time.
+
+QuickCheck is too powerful a tool to throw out just because writing generators is hard.
+
+- Be sure to use the size parameter when generating recursive structures, as these can easily diverge. Try to special case on size 0 and return the base case.
+- If your properties require test data to be 'well formed' in some way, it is far /far/ better to enforce this in the generator than in the property or with constructs like "suchThat".
+- Shrinking is a powerful tool for generating minimal counterexamples, which is crucial for debugging. Shrink aggressively.
+- It is very easy to write a property test that hangs. When this happens, these debugging steps are useful:
+  - Reduce the number of test cases and the maximum size parameter to something trivial like 1 and 0 or 10 and 1.
+  - Make sure you're using the size parameter and shrinking it on recursive structures.
+  - If you have a non-default shrink implementation, try removing it.
+  - Are you filtering in shrink? This can be a source of problems. Try generating well-formed shrinks instead.
