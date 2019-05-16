@@ -1,4 +1,5 @@
-# php-munge
+php-munge
+=========
 
 Warning: this project is very much experimental and should not be used by anyone.
 
@@ -23,11 +24,21 @@ There is an incomplete test suite with two kinds of tests:
 * Recognizer tests are handwritten files consisting of come specific concrete syntax that is either well-formed or not. We run the corresponding top-level parser on the file and make sure the outcome is expected. These tests are important for checking specific syntax examples.
 * Roundtrip tests generate an arbitrary CST, serialize it, and then parse, making sure the original and parsed CSTs are equal. These are generative tests, meaning we run the tests on hundreds or thousands of test cases using QuickCheck. These tests are important for finding edge cases and weeding out implicit assumptions.
 
-Before working on the AST conversion I'd like to get parsing to the CST closer to "completion". This is hindered by very slow compile times, which slows down the usual Haskell iteration cycle.
+Before working on the AST conversion I'd like to get parsing to the CST closer to 'correct'. This is hindered by very slow compile times, which slows down the usual Haskell iteration cycle.
 
 
 
-Known Bugs:
+Trying it Out
+-------------
+
+If you want to play with the code, the best way is to have [stack](https://docs.haskellstack.org/en/stable/README/) installed and invoke `make` from the project root directory. This generates the parser and builds the code.
+
+I strongly suggest running the test suite with `stack test --fast` (the make command uses the `--fast` flag, which speeds up compilation a bit, and running the tests without this triggers a recompile).
+
+
+
+Known Bugs
+----------
 
 * Compilation is EXCRUCIATINGLY slow, and the happy-generated parser module is the main culprit (though the enormous ConcreteSyntax module is bad too). On my machine it takes 20+ minutes to compile this module. Hacking on the parser is not practical while this situation stands. (But once compiled, the parser itself is zippy.)
 * The parser has 400+ shift/reduce conflicts (bad) and 25+ reduce/reduce conflicts (really bad). Working on refactoring the grammar to eliminate these, but this does move us away from the official spec. That is not prima facie a problem for this project (unlike the official grammar, which tries very hard to agree with the letter of the official parser) but does require care and testing.
